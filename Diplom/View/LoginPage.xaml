@@ -1,0 +1,83 @@
+﻿<Page x:Class="Diplom.View.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:viewmodel="clr-namespace:Diplom.ViewModels"
+      xmlns:local="clr-namespace:Diplom.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LoginPage">
+    <Page.DataContext>
+        <viewmodel:LoginViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="#FF004165">
+        <TextBox x:Name="txtLogin" 
+                 HorizontalAlignment="Stretch"
+                 Margin="0,100,0,200" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Stretch" 
+                 Height="28"
+                 Width="162" Foreground="Black" 
+                 Text="{Binding Login}"
+                 />
+
+        <Button x:Name="Login"
+               
+                Content="Войти" 
+                Margin="0,100,0,0"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Width="162" 
+                Height="38" 
+                Command="{Binding LoginComand}"
+                 />
+        <Button x:Name="bttAccount"
+                
+                Content="Регистрация" 
+                Margin="0,200,0,0"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Width="162" 
+                Height="38" 
+                 />
+        <Button x:Name="bttGuest" 
+                Content="Гость" 
+                Margin="350,150,0,0"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Width="162" 
+                Height="38" 
+                 />
+
+        <Label Content="Логин" 
+               Margin="0,100,230,200" 
+               Height="28"
+               Width="60"/>
+
+        <Label Content="Пароль"  
+               Margin="0,100,230,100"  
+               Width="60" 
+               Height="28" />
+        <Label Content="Забыли пароль?"  
+               Margin="340,220,0,0"  
+               Width="100" 
+               Height="28"
+               />
+
+        <PasswordBox x:Name="txtPass" 
+                     HorizontalAlignment="Stretch" 
+                     Margin="0,100,0,100"  
+                     VerticalAlignment="Stretch" 
+                     Width="162" 
+                     PasswordChar="*" 
+                     Height="28" 
+                     FontFamily="Arial" 
+                     Foreground="Black"
+                     
+                     PasswordChanged="txtPass_PasswordChanged"/>
+        
+    </Grid>
+    
+</Page>

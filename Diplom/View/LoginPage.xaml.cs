@@ -12,17 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Diplom.ViewModels;
-using Diplom.View;
-namespace Diplom
+
+namespace Diplom.View
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для LoginPage.xaml
+    /// </summary>
+    public partial class LoginPage : Page
     {
-        public MainWindow()
+        public LoginPage()
         {
             InitializeComponent();
-            MainFrame.Navigate(new LoginPage());
-            MainWindowViewModel.MainFrame = MainFrame;
+        }
+
+        private void txtPass_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((LoginViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
         }
     }
 }

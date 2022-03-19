@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Diplom.ViewModels;
-using Diplom.View;
-namespace Diplom
+
+namespace Diplom.View
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для NewDogovorPage.xaml
+    /// </summary>
+    public partial class NewDogovorPage : Page
     {
-        public MainWindow()
+        public NewDogovorPage()
         {
             InitializeComponent();
-            MainFrame.Navigate(new LoginPage());
-            MainWindowViewModel.MainFrame = MainFrame;
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿<Page x:Class="Diplom.View.ShellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Diplom.ViewModels"
+      xmlns:local="clr-namespace:Diplom.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ShellPage">
+    <Page.DataContext>
+        <vm:ShellPageViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Frame Name="ShellFrame" Grid.Column="1"/>
+        <StackPanel Grid.Column="0"
+                    Orientation="Vertical">
+            <Button x:Name="bttClientPage" 
+                    Command="{Binding LoadClientPageCommand}"
+                    Content="Клиенты"/>
+        </StackPanel>
+    </Grid>
+</Page>
