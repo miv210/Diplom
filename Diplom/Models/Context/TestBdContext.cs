@@ -7,6 +7,7 @@ namespace Diplom.Models
 {
     public partial class TestBdContext : DbContext
     {
+        private static TestBdContext _context;
         public TestBdContext()
         {
         }
@@ -16,6 +17,12 @@ namespace Diplom.Models
         {
         }
 
+        public static TestBdContext GetContext()
+        {
+            if (_context == null)
+                _context = new TestBdContext();
+            return _context;
+        }
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Dogovor> Dogovors { get; set; } = null!;
         public virtual DbSet<Pasport> Pasports { get; set; } = null!;

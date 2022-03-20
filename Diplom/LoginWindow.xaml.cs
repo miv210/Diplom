@@ -10,27 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Diplom.ViewModels;
-using Diplom.View;
+
 namespace Diplom
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для LoginWindow.xaml
+    /// </summary>
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new LoginPage());
-            MainWindowViewModel.MainFrame = MainFrame;
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
+            if (this.DataContext != null)
+            { ((LoginViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
         }
     }
 }

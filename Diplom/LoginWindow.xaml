@@ -1,0 +1,112 @@
+﻿<Window x:Class="Diplom.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:Diplom.ViewModels"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        mc:Ignorable="d"
+        Title="LoginWindow" 
+        Height="760" 
+        Width="450"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="{x:Null}">
+
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
+    
+    <md:Card UniformCornerRadius="15"
+             Background="{DynamicResource MaterialDesignPaper}"
+             Margin="25">
+        <md:DialogHost>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Margin="0,0,10,0">
+
+                    <Button Height="20"
+                        Width="20"
+                        Content="🗕"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Style="{Binding}"
+                        Margin="0,0,0,3"
+                        Foreground="Black"
+                        Command="{Binding MinimaizeWindowCommand}"/>
+
+                    <Button Height="20"
+                        Width="20"
+                        Content="☐"
+                        Background="Transparent"
+                        Foreground="Black"
+                        Style="{Binding}"
+                        BorderThickness="0"
+                        Command="{Binding WindowStateCommand}" Cursor="Hand"/>
+
+                    <Button Height="20"
+                        Width="20"
+                        Content="X"
+                        Background="Transparent"
+                        Foreground="Black"
+                        Style="{Binding}"
+                        BorderThickness="0"
+                        Command="{Binding CloseWindowCommand}" Cursor="Hand"/>
+
+                </StackPanel>
+                
+                <StackPanel Grid.Row="1">
+                    <Image Margin="0,60,0,5"
+                           Height="100"/>
+
+                    <TextBlock Margin="0,25,0,5"
+                               HorizontalAlignment="Center"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Text="Добро пожаловать"/>
+
+                    <TextBlock HorizontalAlignment="Center"
+                               FontSize="17"
+                               FontWeight="SemiBold"
+                               Text="Войдите в ваш акаунт"/>
+                    
+                    <TextBox Margin="0,50,0,0"
+                             Width="300"
+                             Text="{Binding Login}"
+                             FontSize="18"
+                             md:HintAssist.Hint="Введите логин"
+                             BorderThickness="2"
+                             BorderBrush="{DynamicResource MaterialDesignDivider}"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                    <PasswordBox Width="300"
+                             Margin="0,20,0,0"
+                             PasswordChanged="PasswordBox_PasswordChanged"
+                             FontSize="18"
+                             md:HintAssist.Hint="Введите пароль"
+                             BorderThickness="2"
+                             BorderBrush="{DynamicResource MaterialDesignDivider}"
+                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}" Cursor="Arrow"/>
+
+                    <Button Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        md:ShadowAssist.ShadowDepth="Depth0"
+                        Command="{Binding LoginComand}"
+                        Height="53" 
+                        Width="300"
+                        md:ButtonAssist.CornerRadius="10"
+                        FontSize="18"
+                        Content="Войти"
+                        Margin="0,20,0,0" Cursor="Hand"/>
+
+                </StackPanel>
+            </Grid>
+        </md:DialogHost>
+    </md:Card>
+</Window>

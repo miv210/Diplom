@@ -24,7 +24,6 @@ namespace Diplom.ViewModels
                     using (TestBdContext db = new TestBdContext())
                     {
                         authUs = db.Users.Where(b => b.Login == Login && b.Password == Password).FirstOrDefault();
-                        //authWorker = db.Admins.Where(b => b.AdminLogin == login && b.AdminPassword == pass).FirstOrDefault();
                     }
 
                     if (authUs != null)
@@ -36,6 +35,52 @@ namespace Diplom.ViewModels
                 }));
             }
             
+        }
+
+        private Command minimaizeWindowCommand;
+        public Command MinimaizeWindowCommand
+        {
+            get
+            {
+                return minimaizeWindowCommand ?? (minimaizeWindowCommand = new Command(obj =>
+                {
+                    Application.Current.MainWindow.WindowState = WindowState.Minimized;
+                }));
+            }
+            set { minimaizeWindowCommand = value; }
+        }
+
+        private Command windowStateCommand;
+        public Command WindowStateCommand
+        {
+            get
+            {
+                return windowStateCommand ?? (windowStateCommand = new Command(obj =>
+                {
+                    if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+                    {
+                        Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                    }
+                    else
+                    {
+                        Application.Current.MainWindow.WindowState = WindowState.Normal;
+                    }
+                }));
+            }
+            set { windowStateCommand = value; }
+        }
+
+        private Command closeWindowCommand;
+        public Command CloseWindowCommand
+        {
+            get
+            {
+                return closeWindowCommand ?? (closeWindowCommand = new Command(obj =>
+                {
+                    Application.Current.Shutdown();
+                }));
+            }
+            set { closeWindowCommand = value; }
         }
     }
 }

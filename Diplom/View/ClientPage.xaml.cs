@@ -15,8 +15,8 @@ namespace Diplom.View
         public ClientPage()
         {
             InitializeComponent();
-            TestBdContext db = new TestBdContext();
-            DgClient.ItemsSource = db.Clients.ToList();
+            //TestBdContext db = new TestBdContext();
+            //DgClient.ItemsSource = db.Clients.ToList();
         }
 
         private void DgClient_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
