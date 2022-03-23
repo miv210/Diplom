@@ -14,6 +14,7 @@ namespace Diplom.ViewModels
         User authUs = null;
         public string Login { get; set; }
         public string Password { private get; set; }
+        public bool DialogRes { get; set; }
 
         private Command loginCommand;
         public Command LoginComand {
@@ -21,6 +22,7 @@ namespace Diplom.ViewModels
             {
                 return loginCommand?? (loginCommand = new Command(obj =>
                 {
+                    Window wnd = obj as Window;
                     using (TestBdContext db = new TestBdContext())
                     {
                         authUs = db.Users.Where(b => b.Login == Login && b.Password == Password).FirstOrDefault();
@@ -28,7 +30,7 @@ namespace Diplom.ViewModels
 
                     if (authUs != null)
                     {
-                        MainWindowViewModel.MainFrame.Navigate(new ShellPage());
+                        wnd.Close();
                     }
                     else
                         MessageBox.Show("«Вы ввели неверный логин или пароль. Пожалуйста проверьте ещё раз введенные данные");

@@ -60,7 +60,10 @@
             </DataGrid>
             <StackPanel Orientation="Horizontal" 
                         >
-                <Button x:Name="bttAddDog" Click="bttAddDog_Click" Content="Добавитт дог" Margin="5"/>
+                <Button x:Name="bttAddDog"
+                        Command="{Binding NewDogovorOpenCommand}"
+                        Content="Добавитт дог" 
+                        Cursor="Hand"/>
                 <Button Content="Удалить дог" />
             </StackPanel>
 

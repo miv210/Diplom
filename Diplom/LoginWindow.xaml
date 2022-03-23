@@ -13,7 +13,8 @@
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Background="{x:Null}">
+        Background="{x:Null}"
+        Name="LoginName">
 
     <Window.DataContext>
         <vm:LoginViewModel/>
@@ -98,12 +99,15 @@
                     <Button Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         md:ShadowAssist.ShadowDepth="Depth0"
                         Command="{Binding LoginComand}"
+                        CommandParameter="{Binding ElementName=LoginName}"
                         Height="53" 
                         Width="300"
                         md:ButtonAssist.CornerRadius="10"
                         FontSize="18"
                         Content="Войти"
-                        Margin="0,20,0,0" Cursor="Hand"/>
+                        Margin="0,20,0,0" Cursor="Hand"
+                        IsDefault="True"
+                        />
 
                 </StackPanel>
             </Grid>

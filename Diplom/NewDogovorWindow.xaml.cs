@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Diplom.View
+namespace Diplom
 {
     /// <summary>
-    /// Логика взаимодействия для NewDogovorPage.xaml
+    /// Логика взаимодействия для NewDogovorWindow.xaml
     /// </summary>
-    public partial class NewDogovorPage : Page
+    public partial class NewDogovorWindow : Window
     {
-        public NewDogovorPage()
+        public NewDogovorWindow()
         {
             InitializeComponent();
         }

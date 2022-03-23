@@ -38,9 +38,5 @@ namespace Diplom.View
             }
         }
 
-        private void bttAddDog_Click(object sender, RoutedEventArgs e)
-        {
-            ShellPageViewModel.ShellFrame.Navigate(new NewDogovorPage());
-        }
     }
 }
