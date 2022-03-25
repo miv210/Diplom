@@ -53,16 +53,17 @@
                Grid.Row="4"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" Height="20"/>
-        <TextBox Grid.Column="1" Height="20" Grid.Row="1"/>
+        <TextBox Grid.Column="1" Height="25" Text="{Binding TypeDog}" Cursor="Arrow"/>
+        <TextBox Grid.Column="1" Height="25" Grid.Row="1" Text="{Binding ClientS}"/>
         <ComboBox Grid.Column="1" Grid.Row="2"/>
-        <TextBox Grid.Column="1" Height="20" Grid.Row="3"/>
-        <TextBox Grid.Column="1" Height="20" Grid.Row="4"/>
+        <TextBox Grid.Column="1" Height="25" Grid.Row="3" Text="{Binding Date}"/>
+        <TextBox Grid.Column="1" Height="25" Grid.Row="4" Text="{Binding Summ}"/>
         <Button Grid.ColumnSpan="2" 
                 Content="Сохранить"
                 Grid.Row="5" 
                 Command="{Binding SaveDogovorCommand}"
-                CommandParameter="{Binding ElementName=NewDogovor}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                
                 Width="200" Cursor="Hand"/>
     </Grid>
 </Window>

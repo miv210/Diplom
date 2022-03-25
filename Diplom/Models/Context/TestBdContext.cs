@@ -16,17 +16,18 @@ namespace Diplom.Models
             : base(options)
         {
         }
-
         public static TestBdContext GetContext()
         {
-            if (_context == null)
+            if(_context==null)
                 _context = new TestBdContext();
             return _context;
         }
+
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Dogovor> Dogovors { get; set; } = null!;
         public virtual DbSet<Pasport> Pasports { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Zayvki> Zayvkis { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -130,6 +131,31 @@ namespace Diplom.Models
                 entity.Property(e => e.Role)
                     .HasMaxLength(80)
                     .HasColumnName("role_");
+            });
+
+            modelBuilder.Entity<Zayvki>(entity =>
+            {
+                entity.ToTable("Zayvki");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DateZayvki).HasColumnType("date");
+
+                entity.Property(e => e.Opisanie).HasMaxLength(255);
+
+                entity.Property(e => e.StatusZayvki).HasMaxLength(50);
+
+                entity.Property(e => e.TypeZayvki).HasMaxLength(50);
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.Zayvkis)
+                    .HasForeignKey(d => d.ClientId)
+                    .HasConstraintName("FK_Zayvki_Clients");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Zayvkis)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Zayvki_Users");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,52 @@
+﻿<Page x:Class="Diplom.View.ZayvkiPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:vm="clr-namespace:Diplom.ViewModels"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Diplom.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ZayvkiPage">
+
+    <Page.DataContext>
+        <vm:ZayvkiPageViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding ZayvkiList }"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Номер заявки">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="{Binding Path=Id}"/>
+                                <TextBlock Grid.Row="1" 
+                                           Text="{Binding Path=DateZayvki}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Адрес и Заявитель" Binding="{Binding Path=Client.Adres}"/>
+                <DataGridTextColumn Header="Вид заявки" Binding="{Binding Path=TypeZayvki}"/>
+                <DataGridTextColumn Header="Исполнитель" Binding="{Binding Path=User.Login}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=StatusZayvki}"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Path=Opisanie}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

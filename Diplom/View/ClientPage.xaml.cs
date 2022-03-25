@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using Diplom.ViewModels;
 
 namespace Diplom.View
 {
@@ -12,18 +12,21 @@ namespace Diplom.View
     /// </summary>
     public partial class ClientPage : Page
     {
+        public static DataGrid ClientGrid;
+        public static DataGrid DogovorGrid;
         public ClientPage()
         {
             InitializeComponent();
-            //TestBdContext db = new TestBdContext();
-            //DgClient.ItemsSource = db.Clients.ToList();
+            //DgClient = ClientGrid;
+            //DgClientDog = DogovorGrid;
         }
 
         private void DgClient_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
+
             using (TestBdContext db = new TestBdContext())
             {
-                var clients = db.Clients.Join(
+                var dogovors = db.Clients.Join(
                     db.Dogovors,
                     u => u.Id,
                     c => c.IdClient, (u, c) => new
@@ -34,9 +37,39 @@ namespace Diplom.View
                         Dat = c.DataPodpisanie,
                         Summ = c.SumDogovora
                     });
-                DgClientDog.ItemsSource = clients.ToList();
+                //var clients = new Client();
+                //var dogovors = db.Dogovors.Where(c => c.IdClient == clients.Id);
+                DgClientDog.ItemsSource = dogovors.ToList();
+
             }
         }
 
+        private void DeleteDog_Click(object sender, RoutedEventArgs e)
+        {
+            var dogForRemoving = DgClientDog.SelectedItems.Cast<Dogovor>().ToList();
+
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {dogForRemoving.Count()} элементов,", "Вгимание",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    TestBdContext.GetContext().Dogovors.RemoveRange(dogForRemoving);
+                    TestBdContext.GetContext().SaveChanges();
+                    MessageBox.Show("Данные удаленны");
+
+                    DgClientDog.ItemsSource = TestBdContext.GetContext().Dogovors.ToList();
+                    
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

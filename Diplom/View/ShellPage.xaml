@@ -23,6 +23,9 @@
             <Button x:Name="bttClientPage" 
                     Command="{Binding LoadClientPageCommand}"
                     Content="Клиенты"/>
+            <Button Command="{Binding LoadZayvkiPageCommand}"
+                    Content="Заявки"
+                    Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </Page>

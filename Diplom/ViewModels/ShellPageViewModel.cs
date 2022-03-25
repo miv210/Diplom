@@ -21,5 +21,17 @@ namespace Diplom.ViewModels
                 }));
             } 
         }
+
+        private Command loadZayvkiPageCommand;
+        public Command LoadZayvkiPageCommand
+        {
+            get
+            {
+                return loadZayvkiPageCommand ?? (loadZayvkiPageCommand = new Command(obj =>
+                {
+                    ShellPageViewModel.ShellFrame.Navigate(new ZayvkiPage());
+                }));
+            }
+        }
     }
 }

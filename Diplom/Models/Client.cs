@@ -8,6 +8,7 @@ namespace Diplom.Models
         public Client()
         {
             Dogovors = new HashSet<Dogovor>();
+            Zayvkis = new HashSet<Zayvki>();
         }
 
         public int Id { get; set; }
@@ -20,5 +21,6 @@ namespace Diplom.Models
 
         public virtual Pasport? Pasport { get; set; }
         public virtual ICollection<Dogovor> Dogovors { get; set; }
+        public virtual ICollection<Zayvki> Zayvkis { get; set; }
     }
 }
