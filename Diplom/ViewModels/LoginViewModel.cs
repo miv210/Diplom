@@ -23,6 +23,7 @@ namespace Diplom.ViewModels
                 return loginCommand?? (loginCommand = new Command(obj =>
                 {
                     Window wnd = obj as Window;
+
                     using (TestBdContext db = new TestBdContext())
                     {
                         authUs = db.Users.Where(b => b.Login == Login && b.Password == Password).FirstOrDefault();

@@ -3,6 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      
+      xmlns:con="clr-namespace:Diplom.Converters"
       xmlns:vm="clr-namespace:Diplom.ViewModels"
       xmlns:local="clr-namespace:Diplom.View"
       mc:Ignorable="d" 
@@ -26,60 +29,53 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <DataGrid x:Name="DgClient" 
-                      AutoGenerateColumns="False" 
-                      IsReadOnly="True"
-                      Grid.Row="1" 
-                      
-                      
-                      ItemsSource="{Binding Clients}"
-                      SelectedCellsChanged="DgClient_SelectedCellsChanged">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер договора" Binding="{Binding NDogovora}"/>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}"/>
-                    <DataGridTextColumn Header="Номер телефона" Binding="{Binding Telethon}"/>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding Adres}"/>
-                    <DataGridTemplateColumn Width="auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Редактировать" Name="bttEdit"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+           
             <StackPanel Orientation="Horizontal">
                 
                 <Button Content="Добавить клиента"
                         Command="{Binding NewClientOpenCommand}"/>
                 <Button Content="Удалить клиента"
-                        Command="" Click="Button_Click"/>
+                        Command="{Binding DeleteClientCommand}"
+                        CommandParameter="{Binding ElementName=Clientpage}"/>
                 
             </StackPanel>
-            
+
+            <ListView Grid.Row="1" Name="ListClin" 
+                       
+                      ItemsSource="{Binding Clients}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectRowCommand}"
+                                               CommandParameter="{Binding ElementName=Clientpage}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                   
+                    <GridView >
+                        
+                        <GridViewColumn Header="Номер договора"  DisplayMemberBinding="{Binding StringFormat=Договор № {0}, Path=NDogovora}"/>
+                        <GridViewColumn Header="ФИО" DisplayMemberBinding="{Binding Fio}"/>
+                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Telethon}"/>
+                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Adres}"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Редактировать"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              >
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <DataGrid x:Name="DgClientDog"
-                      Grid.Row="1" 
-                      
-                      AutoGenerateColumns="False" 
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер договора" Binding="{Binding id}"/>
-                    <DataGridTextColumn Header="Тип договора" Binding="{Binding type}"/>
-                    <DataGridTextColumn Header="Состояние" Binding="{Binding status}"/>
-                    <DataGridTextColumn Header="Дата заключения" Binding="{Binding date}"/>
 
-                    <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding summ}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            
             <StackPanel Orientation="Horizontal" 
                         >
                 <Button x:Name="bttAddDog"
@@ -89,9 +85,28 @@
                         Cursor="Hand"/>
                 <Button Name="DeleteDog"
                         Content="Удалить дог"  
-                        Click="DeleteDog_Click"/>
+                        Command="{Binding DeleteDogovorCommand}"
+                        CommandParameter="{Binding ElementName=Clientpage}"/>
             </StackPanel>
 
+            <ListView Grid.Row="1"  Name="ListDogovor" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Номер договора"  DisplayMemberBinding="{Binding  Id}"/>
+                        <GridViewColumn Header="Тип договора" DisplayMemberBinding="{Binding TypeDogovora}"/>
+                        <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding Sostoynie}"/>
+                        <GridViewColumn Header="Дата заключения" DisplayMemberBinding="{Binding DataPodpisanie}"/>
+                        <GridViewColumn Header="Сумма оплаты" DisplayMemberBinding="{Binding SumDogovora}"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Редактировать"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </Page>

@@ -26,18 +26,13 @@ namespace Diplom.ViewModels
                 {
                     Window wnd = obj as Window;
 
-
                     Dogovor dogovor = new Dogovor 
                     {
                         TypeDogovora = TypeDog, 
                         IdClient = ClientS, 
                         SumDogovora = Summ,
                         DataPodpisanie = Date
-                    };
-
-
-                    
-                    
+                    }; 
 
                     using (TestBdContext db = new TestBdContext())
                     {
@@ -53,12 +48,9 @@ namespace Diplom.ViewModels
                         }
                        
                     }
-
-                    
                     wnd.Close();
                 }));
             }
-
         }
     }
 }

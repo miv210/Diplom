@@ -11,7 +11,29 @@ namespace Diplom.ViewModels
     class MainWindowViewModel : BaseViewModel
     {
         public static Frame MainFrame { get; set; }
+        private Command loadClientPageCommand;
+        public Command LoadClientPageCommand
+        {
+            get
+            {
+                return loadClientPageCommand ?? (loadClientPageCommand = new Command(obj =>
+                {
+                    MainFrame.Navigate(new ClientPage());
+                }));
+            }
+        }
 
+        private Command loadZayvkiPageCommand;
+        public Command LoadZayvkiPageCommand
+        {
+            get
+            {
+                return loadZayvkiPageCommand ?? (loadZayvkiPageCommand = new Command(obj =>
+                {
+                    MainFrame.Navigate(new ZayvkiPage());
+                }));
+            }
+        }
         private Command minimaizeWindowCommand;
         public Command MinimaizeWindowCommand
         {

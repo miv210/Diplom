@@ -2,12 +2,14 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:vm="clr-namespace:Diplom.ViewModels"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Diplom.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ZayvkiPage">
+      Title="ZayvkiPage"
+      Name="Zayvkipage">
 
     <Page.DataContext>
         <vm:ZayvkiPageViewModel/>
@@ -19,10 +21,62 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <Button Content="Новые"
+                    Command="{Binding SelectNewZayvkiCommand}"
+                    CommandParameter="{Binding ElementName=Zayvkipage}"/>
+            <Button Content="В работе"
+                    Command="{Binding SelectWorkZayvkiCommand}"
+                    CommandParameter="{Binding ElementName=Zayvkipage}"/>
+            <Button Content="Выполнена"
+                    Command="{Binding SelectComletedZayvkiCommand}" 
+                    CommandParameter="{Binding ElementName=Zayvkipage}"
+                    />
+            <Button Content="Все заявки"
+                    Command="{Binding SelectedAllZayvkiCommand}"
+                    CommandParameter="{Binding ElementName=Zayvkipage}"
+                    />
+            <md:ColorZone Mode="Standard"
+                      Padding="8 4 8 4"
+                      CornerRadius="2"
+                      Panel.ZIndex="1"
+                      Margin="10,0,0,0"
+                      VerticalAlignment="Center"
+                      Width="300"
+                      md:ShadowAssist.ShadowDepth="Depth1"
+                      Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Style="{DynamicResource MaterialDesignToolButton}"
+                            Command="{Binding SerchZayvitelCommand}"
+                            CommandParameter="{Binding ElementName=Zayvkipage}">
+                        <md:PackIcon Kind="Search"
+                                     Opacity=".56" />
+                    </Button>
+                    <TextBox Grid.Column="1"
+                         Margin="8 0 0 0"
+                         Text="{Binding SerchZayvitel}"
+                         md:HintAssist.Hint="Введите имя заявителя"
+                         md:TextFieldAssist.DecorationVisibility="Hidden"
+                         BorderThickness="0"
+                         MinWidth="200"
+                         VerticalAlignment="Center" />
+                </Grid>
+            </md:ColorZone>
+
+        </StackPanel>
+        
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding ZayvkiList }"
                   AutoGenerateColumns="False"
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  Name="DataGridZayvki">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Номер заявки">
                     <DataGridTemplateColumn.CellTemplate>
@@ -34,19 +88,36 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
-                                           Text="{Binding Path=Id}"/>
+                                           Text="{Binding StringFormat=Заявка № {0}, Path=Id}"/>
                                 <TextBlock Grid.Row="1" 
                                            Text="{Binding Path=DateZayvki}"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Адрес и Заявитель" Binding="{Binding Path=Client.Adres}"/>
+                <DataGridTemplateColumn Header="Адрес и Заявитель">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0"
+                                           Text="{Binding Client.Adres}"/>
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Client.Fio}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Вид заявки" Binding="{Binding Path=TypeZayvki}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Path=User.Login}"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=StatusZayvki}"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding Path=Opisanie}"/>
             </DataGrid.Columns>
         </DataGrid>
+        
     </Grid>
 </Page>
