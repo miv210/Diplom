@@ -27,7 +27,7 @@ namespace Diplom
             this.Hide();
             lw.ShowDialog();
             this.Show();
-
+            
             MainFrame.Navigate(new ClientPage());
             MainWindowViewModel.MainFrame = MainFrame;
         }

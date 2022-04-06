@@ -12,7 +12,7 @@ namespace Diplom.ViewModels
     class NewDogovorWindowViewModel : BaseViewModel
     {
         public string TypeDog { get; set; }
-        public int ClientS { get; set; }
+        public int ClientS { get; set; } 
         public string Status { get; set; }
         public string Date { get; set; }
         public int Summ { get; set; }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Diplom.ViewModels
 {
@@ -18,10 +19,9 @@ namespace Diplom.ViewModels
         public int NomerPasporta { get; set; }
         public string KemVidanPasport { get; set; }
         public string KodPodrazdel { get; set; }
-        public string DataVidachi { get; set; }
-        public string DataRoj { get; set; }
+        public DateTime DataVidachi { get; set; }
+        public DateTime DataRoj { get; set; }
         public string AdresReg { get; set; }
-        public string MestoRoj { get; set; }  
         public int LicevoiChet { get; set; }
 
 
@@ -33,44 +33,47 @@ namespace Diplom.ViewModels
                 return saveNewClientCommand ?? (saveNewClientCommand = new Command(obj =>
                 {
                     Window wnd = obj as Window;
-                    Pasport pasport;
-                    Client client = new Client
+
+                    using (TestBdContext db = new TestBdContext())
                     {
-                        Fio = FullName,
-                        Telethon = Telethon,
-                        Adres = Adres,
-                        LicevoiChet = LicevoiChet,
-                        Pasport = new Pasport
+                        Client client = new Client
                         {
-                            Seriy = SeriyPasporta,
+                            Fio = FullName,
+                            Telethon = Telethon,
+                            Adres = Adres,
+                            LicevoiChet = LicevoiChet,
+                            Seriy= SeriyPasporta,
                             Nomer = NomerPasporta,
                             KemVidan = KemVidanPasport,
                             KodPodrazdeleniy = KodPodrazdel,
                             DataVidachi = DataVidachi,
                             DataRojdeniy = DataRoj,
-                            AdresRegistarci = AdresReg,
-                            MestoRojdeniy = MestoRoj
+                            AdresRegistraci = AdresReg
+                        };
+
+                        db.Clients.Add(client);
+                        try
+                        {
+                            db.SaveChanges();
+                            MessageBox.Show("Информация сохранена!");
                         }
-                    };
-
-                    TestBdContext.GetContext().Clients.Add(client);
-                    try
-                    {
-                        TestBdContext.GetContext().SaveChanges();
-                        MessageBox.Show("Информация сохранена!");
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message.ToString());
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message.ToString());
-                    }
-
+                        
+                    //Application.Current.Dispatcher.Invoke();
+                    
                     //DataGrid dgCl = wnd.Owner.FindName("DgClient") as DataGrid;
                     //MainWindowViewModel.MainFrame.
                     wnd.Close();
                 }));
             }
         }
-    
+
+        
+
         private Command closeWindowCommand;
         public Command CloseWindowCommand
         {

@@ -13,32 +13,8 @@ namespace Diplom.ViewModels
     class ClientPageViewModel : BaseViewModel
     {
         public List<Client> Clients { get; set; } = TestBdContext.GetContext().Clients.ToList();
-        public List<Dogovor> DogovorS { get; set; } = TestBdContext.GetContext().Dogovors.Include(u => u.IdClientNavigation).ToList();
+        public List<Dogovor> DogovorS { get; set; } = TestBdContext.GetContext().Dogovors.ToList();
         public string VisibilityGrid { get; set; } = "Collapsed";
-
-        private Client selectedClient;
-        public Client SelectedClient 
-        {
-            get
-            {
-                return selectedClient;
-            }
-            set { selectedClient = value; }
-        }
-
-        private SelectedCellsChangedEventHandler selectedCellsChanged;
-        public SelectedCellsChangedEventHandler SelectedCellsChanged
-        {
-            get
-            {
-                VisibilityGrid = "Visible";
-                return selectedCellsChanged;
-            }
-
-            set { selectedCellsChanged = value; }
-
-        }
-
 
         private Command selectRowCommand;
         public Command SelectRowCommand 
@@ -51,14 +27,11 @@ namespace Diplom.ViewModels
                     Page pg = obj as Page;
 
                     ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
-                    ListView listViewClient = pg.FindName("ListClin") as ListView;
-                    var idClienta = (listViewClient.SelectedItem as Client).Id;
-
-                    listViewDogovor.ItemsSource = DogovorS.Where(u=> u.IdClient == idClienta).ToList();
+                    int idClienta = GetIdClient(pg);
+                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == idClienta).ToList();
+                    
                 }));
             }
-            set { selectRowCommand = value; }
-            
         }
 
         private Command newClientOpenCommand;
@@ -68,8 +41,13 @@ namespace Diplom.ViewModels
             {
                 return newClientOpenCommand ?? (newClientOpenCommand = new Command(obj =>
                 {
+                    Page pg = obj as Page;
+                    ListView listViewClient = pg.FindName("ListClin") as ListView;
                     NewClientWindow newClientWindow = new NewClientWindow();
-                    OpenDialogWindow(newClientWindow);
+                    OpenDialogWindow(newClientWindow, pg);
+                    Clients = TestBdContext.GetContext().Clients.ToList();
+                    listViewClient.ItemsSource = Clients;
+
                 }));
             }
         }
@@ -81,12 +59,12 @@ namespace Diplom.ViewModels
             {
                 return newDogovorOpenCommand ?? (newDogovorOpenCommand = new Command(obj =>
                 {
-                    
-                    NewDogovorWindow newDogovorWindow = new NewDogovorWindow ();
-                    OpenDialogWindow(newDogovorWindow);
                     Page pg = obj as Page;
-                    DataGrid sds = pg.FindName("DgClientDog") as DataGrid;
-                    sds.Items.Refresh();
+                    ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+                    NewDogovorWindow newDogovorWindow = new NewDogovorWindow ();
+                    OpenDialogWindow(newDogovorWindow, pg);
+                    DogovorS = TestBdContext.GetContext().Dogovors.ToList();
+                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == GetIdClient(pg)).ToList(); 
                 }));
             }
 
@@ -103,7 +81,7 @@ namespace Diplom.ViewModels
 
                     ListView listViewDogovor = pg.FindName("ListDogovor") as ListView; ;
                     ListView listViewClient = pg.FindName("ListClin") as ListView;
-                    var idClienta = (listViewClient.SelectedItem as Client).Id;
+           
                     List<Dogovor> dogForRemoving = listViewDogovor.SelectedItems.Cast<Dogovor>().ToList();
 
                     if (MessageBox.Show($"Вы точно хотите удалить следующие {dogForRemoving.Count()} элементов,", "Вгимание",
@@ -116,8 +94,8 @@ namespace Diplom.ViewModels
                                     db.Dogovors.RemoveRange(dogForRemoving);
                                     db.SaveChanges();
                                     MessageBox.Show("Данные удаленны");
-                                    DogovorS = null;
-                                    listViewDogovor.ItemsSource = db.Dogovors.Where(u => u.IdClient == idClienta).ToList();
+                                    DogovorS = db.Dogovors.ToList(); ;
+                                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == GetIdClient(pg)).ToList(); 
                                 }
                             }
                             catch(Exception ex)
@@ -162,11 +140,19 @@ namespace Diplom.ViewModels
                 }));
             }
         }
-        private void OpenDialogWindow(Window wn)
+        private void OpenDialogWindow(Window wn, object dataContext)
         {
             wn.Owner = Application.Current.MainWindow;
             wn.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wn.ShowDialog();
+            wn.DataContext = dataContext;
+        }
+
+        private int GetIdClient(Page pg)
+        {
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+            int idClienta = (listViewClient.SelectedItem as Client).Id;
+            return idClienta;
         }
     }
 }

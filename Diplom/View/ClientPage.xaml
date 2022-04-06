@@ -33,7 +33,8 @@
             <StackPanel Orientation="Horizontal">
                 
                 <Button Content="Добавить клиента"
-                        Command="{Binding NewClientOpenCommand}"/>
+                        Command="{Binding NewClientOpenCommand}"
+                        CommandParameter="{Binding ElementName=Clientpage}"/>
                 <Button Content="Удалить клиента"
                         Command="{Binding DeleteClientCommand}"
                         CommandParameter="{Binding ElementName=Clientpage}"/>
@@ -42,7 +43,7 @@
 
             <ListView Grid.Row="1" Name="ListClin" 
                        
-                      ItemsSource="{Binding Clients}">
+                      ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding SelectRowCommand}"

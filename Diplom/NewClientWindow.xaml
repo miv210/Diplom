@@ -189,7 +189,9 @@
                         Grid.ColumnSpan="2"
                         Command="{Binding SaveNewClientCommand}"
                         CommandParameter="{Binding ElementName=Newclient}"
-                        FontSize="10"/>
+                        FontSize="10"
+                        >
+                </Button>
             </Grid>
         </Grid>
     </md:Card>

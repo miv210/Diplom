@@ -7,7 +7,7 @@ namespace Diplom.Models
 {
     public partial class TestBdContext : DbContext
     {
-        private static TestBdContext _context;
+        private  static TestBdContext _context;
         public TestBdContext()
         {
         }
@@ -18,11 +18,12 @@ namespace Diplom.Models
         }
         public static TestBdContext GetContext()
         {
-            if(_context==null)
+            if (_context == null)
+            {
                 _context = new TestBdContext();
+            }
             return _context;
         }
-
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Dogovor> Dogovors { get; set; } = null!;
         public virtual DbSet<Pasport> Pasports { get; set; } = null!;
@@ -46,21 +47,35 @@ namespace Diplom.Models
 
                 entity.Property(e => e.Adres).HasMaxLength(150);
 
+                entity.Property(e => e.AdresRegistraci)
+                    .HasMaxLength(150)
+                    .HasColumnName("Adres_registraci");
+
+                entity.Property(e => e.DataRojdeniy)
+                    .HasColumnType("date")
+                    .HasColumnName("Data_rojdeniy");
+
+                entity.Property(e => e.DataVidachi)
+                    .HasColumnType("date")
+                    .HasColumnName("Data_vidachi");
+
                 entity.Property(e => e.Fio)
                     .HasMaxLength(150)
                     .HasColumnName("FIO");
+
+                entity.Property(e => e.KemVidan)
+                    .HasMaxLength(150)
+                    .HasColumnName("Kem_vidan");
+
+                entity.Property(e => e.KodPodrazdeleniy)
+                    .HasMaxLength(50)
+                    .HasColumnName("Kod_podrazdeleniy");
 
                 entity.Property(e => e.LicevoiChet).HasColumnName("Licevoi_chet");
 
                 entity.Property(e => e.NDogovora).HasColumnName("N_dogovora");
 
                 entity.Property(e => e.Telethon).HasMaxLength(150);
-
-                entity.HasOne(d => d.Pasport)
-                    .WithMany(p => p.Clients)
-                    .HasForeignKey(d => d.PasportId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_Clients_Pasports");
             });
 
             modelBuilder.Entity<Dogovor>(entity =>
@@ -150,6 +165,7 @@ namespace Diplom.Models
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Zayvkis)
                     .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_Zayvki_Clients");
 
                 entity.HasOne(d => d.User)
