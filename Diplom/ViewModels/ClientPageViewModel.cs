@@ -148,7 +148,7 @@ namespace Diplom.ViewModels
             wn.DataContext = dataContext;
         }
 
-        private int GetIdClient(Page pg)
+        public int GetIdClient(Page pg)
         {
             ListView listViewClient = pg.FindName("ListClin") as ListView;
             int idClienta = (listViewClient.SelectedItem as Client).Id;

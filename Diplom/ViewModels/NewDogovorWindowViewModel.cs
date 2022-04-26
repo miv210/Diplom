@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,9 @@ namespace Diplom.ViewModels
             {
                 return saveDogovorCommand ?? (saveDogovorCommand = new Command(obj =>
                 {
+                    //ClientPageViewModel clpg = new ClientPageViewModel();
+                    //int idclienta = clpg.GetIdClient();
+
                     Window wnd = obj as Window;
 
                     Dogovor dogovor = new Dogovor 
@@ -51,6 +55,45 @@ namespace Diplom.ViewModels
                     wnd.Close();
                 }));
             }
+        }
+        private Command closeWindowCommand;
+        public Command CloseWindowCommand
+        {
+            get
+            {
+                return closeWindowCommand ?? (closeWindowCommand = new Command(obj =>
+                {
+                    Window wnd = obj as Window;
+                    wnd.Close();
+                }));
+            }
+            set { closeWindowCommand = value; }
+        }
+
+        private Command addFilewCommand;
+        public Command AddFilewCommand
+        {
+            get
+            {
+                return addFilewCommand ?? (addFilewCommand = new Command(obj =>
+                {
+                    Window wnd = obj as Window;
+                    TextBox tbFile = wnd.FindName("tbPathFile") as TextBox;
+
+                    OpenFileDialog openFile = new OpenFileDialog();
+                    openFile.CheckFileExists = true;
+                    openFile.CheckPathExists = true;
+                    openFile.Filter = "Files(*.docx; *.doc; *.pdf)|*.docx; *.pdf|All files (*.*)|*.*";
+                    if (openFile.ShowDialog() == true)
+                    { 
+                        Dogovor fileDogovor = new Dogovor();
+
+                    }
+
+                    tbFile.Text = openFile.FileName;
+                }));
+            }
+            set { addFilewCommand = value; }
         }
     }
 }

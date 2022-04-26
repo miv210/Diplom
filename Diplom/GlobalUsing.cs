@@ -4,4 +4,4 @@ global using Diplom.View;
 global using Diplom.ViewModels;
 global using Diplom.Models;
 global using System.Windows.Input;
-using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;

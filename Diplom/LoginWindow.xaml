@@ -8,8 +8,8 @@
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
         Title="LoginWindow" 
-        Height="760" 
-        Width="450"
+        Height="650" 
+        Width="1000"
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -63,9 +63,10 @@
 
                 </StackPanel>
                 
-                <StackPanel Grid.Row="1">
-                    <Image Margin="0,60,0,5"
-                           Height="100"/>
+                <StackPanel Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    
 
                     <TextBlock Margin="0,25,0,5"
                                HorizontalAlignment="Center"
@@ -98,7 +99,7 @@
 
                     <Button Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         md:ShadowAssist.ShadowDepth="Depth0"
-                        Command="{Binding LoginComand}"
+                        Command="{Binding Log}"
                         CommandParameter="{Binding ElementName=LoginName}"
                         Height="53" 
                         Width="300"

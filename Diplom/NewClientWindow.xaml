@@ -78,8 +78,7 @@
                 <TextBox Grid.Row="0" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding FullName}"
                          FontSize="10"/>
@@ -87,8 +86,7 @@
                 <TextBox Grid.Row="1" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding Telethon}"
                          FontSize="10" Cursor="Arrow"/>
@@ -96,8 +94,7 @@
                 <TextBox Grid.Row="2" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding Adres}"
                          FontSize="10"/>
@@ -105,8 +102,7 @@
                 <TextBox Grid.Row="3" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding SeriyPasporta}" 
                          FontSize="10"/>
@@ -114,8 +110,7 @@
                 <TextBox Grid.Row="4" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding NomerPasporta}" 
                          FontSize="10"/>
@@ -123,8 +118,7 @@
                 <TextBox Grid.Row="5" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding KemVidanPasport}"
                          FontSize="10"/>
@@ -132,8 +126,7 @@
                 <TextBox Grid.Row="6" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding KemVidanPasport}"
                          FontSize="10"/>
@@ -141,8 +134,7 @@
                 <TextBox Grid.Row="7" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding DataVidachi}"
                          FontSize="10"/>
@@ -150,8 +142,7 @@
                 <TextBox Grid.Row="8" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding DataRoj}"
                          FontSize="10"/>
@@ -159,8 +150,7 @@
                 <TextBox Grid.Row="9" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding AdresReg}"
                          FontSize="10"/>
@@ -168,20 +158,18 @@
                 <TextBox Grid.Row="10" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding MestoRoj}"
-                          FontSize="10"/>
+                         FontSize="10"/>
                 
                 <TextBox Grid.Row="11" 
                          Grid.Column="2" 
                          Height="50" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                         BorderThickness="2"
+                         
                          Margin="0,0,10,0"
                          Text="{Binding LicevoiChet}"
-                          FontSize="10"/>
+                         FontSize="10"/>
 
                 <Button Content="Добавить"
                         Width="300"

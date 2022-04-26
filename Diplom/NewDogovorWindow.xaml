@@ -9,61 +9,130 @@
         mc:Ignorable="d"
         Title="NewDogovorWindow" 
         Name="NewDogovor"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        Background="{x:Null}"
+        
         Height="450" Width="800">
     
     <Window.DataContext>
         <vm:NewDogovorWindowViewModel/>
     </Window.DataContext>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Тип договора" 
-               Grid.Column="0"
-               Grid.Row="0"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-        <Label Content="Клиент" 
-               Grid.Column="0"
-               Grid.Row="1"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-        <Label Content="Статус" 
-               Grid.Column="0"
-               Grid.Row="2"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-        <Label Content="Дата подписания" 
-               Grid.Column="0"
-               Grid.Row="3"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-        <Label Content="Сумма Оплаты" 
-               Grid.Column="0"
-               Grid.Row="4"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" Height="25" Text="{Binding TypeDog}" Cursor="Arrow"/>
-        <TextBox Grid.Column="1" Height="25" Grid.Row="1" Text="{Binding ClientS}"/>
-        <ComboBox Grid.Column="1" Grid.Row="2"/>
-        <TextBox Grid.Column="1" Height="25" Grid.Row="3" Text="{Binding Date}"/>
-        <TextBox Grid.Column="1" Height="25" Grid.Row="4" Text="{Binding Summ}"/>
-        <Button Grid.ColumnSpan="2" 
-                Content="Сохранить"
-                Grid.Row="5" 
-                Command="{Binding SaveDogovorCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+
+    <md:Card UniformCornerRadius="15">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                <Button Height="20"
+                        Margin="0,0,5,0"
+                        Width="20"
+                        Content="X"
+                        Background="Transparent"
+                        Foreground="Black"
+                        Style="{Binding}"
+                        BorderThickness="0"
+                        Command="{Binding CloseWindowCommand}" 
+                        CommandParameter="{Binding ElementName=NewDogovor}"/>
+            </StackPanel>
+            
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Тип договора" 
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBlock Text="Клиент" 
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBlock Text="Статус" 
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBlock Text="Дата подписания" 
+                   Grid.Column="0"
+                   Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBlock Text="Сумма Оплаты" 
+                   Grid.Column="0"
+                   Grid.Row="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBlock Text="Файл договора" 
+                   Grid.Column="0"
+                   Grid.Row="5"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1"
+                         Margin="0,0,30,0"
+                         Height="25" 
+                         Text="{Binding TypeDog}" 
+                         VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1"
+                         Height="25" 
+                         Margin="0,0,30,0"
+                         Grid.Row="1" 
+                         Text="{Binding ClientS}"/>
+                <ComboBox Grid.Column="1" 
+                          Grid.Row="2"
+                          Margin="0,0,30,0"/>
+                <TextBox Grid.Column="1" 
+                         Height="25" 
+                         Grid.Row="3" 
+                         Margin="0,0,30,0"
+                         Text="{Binding Date}"/>
+                <TextBox Grid.Column="1" 
+                         Height="25" 
+                         Grid.Row="4" 
+                         Margin="0,0,30,0"
+                         Text="{Binding Summ}"/>
+                <StackPanel Grid.Row="5"
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            >
+                    <Button Command="{Binding AddFilewCommand}" 
+                            CommandParameter="{Binding ElementName=NewDogovor}">
+                        <md:PackIcon Kind="NotePlus" />
+                    </Button>
+                    <TextBox Name="tbPathFile"
+                             Height="25"
+                             Width="500"
+                             Margin="20,0,0,0"
+                             IsReadOnly="True" Cursor="Arrow"/>
+                    
+                </StackPanel>
                 
-                Width="200" Cursor="Hand"/>
-    </Grid>
+                <Button Grid.ColumnSpan="2" 
+                    Content="Сохранить"
+                    Grid.Row="6" 
+                    Command="{Binding SaveDogovorCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    Width="200"/>
+            </Grid>
+        </Grid>
+    </md:Card>
 </Window>

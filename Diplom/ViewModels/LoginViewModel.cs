@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MvvmHelpers.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,18 +13,20 @@ namespace Diplom.ViewModels
 {
     class LoginViewModel : BaseViewModel
     {
-        User authUs = null;
+        
         public string Login { get; set; }
         public string Password { private get; set; }
         public bool DialogRes { get; set; }
 
+        
         private Command loginCommand;
-        public Command LoginComand {
+        public Command LoginCommand {
             get
             {
                 return loginCommand?? (loginCommand = new Command(obj =>
                 {
                     Window wnd = obj as Window;
+                    User authUs = null;
 
                     using (TestBdContext db = new TestBdContext())
                     {
@@ -37,9 +41,7 @@ namespace Diplom.ViewModels
                         MessageBox.Show("«Вы ввели неверный логин или пароль. Пожалуйста проверьте ещё раз введенные данные");
                 }));
             }
-            
         }
-
         private Command minimaizeWindowCommand;
         public Command MinimaizeWindowCommand
         {
@@ -74,6 +76,8 @@ namespace Diplom.ViewModels
         }
 
         private Command closeWindowCommand;
+        
+
         public Command CloseWindowCommand
         {
             get

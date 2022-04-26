@@ -23,5 +23,7 @@ namespace Diplom
         {
             InitializeComponent();
         }
+
+        
     }
 }

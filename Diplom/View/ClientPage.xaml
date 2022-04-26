@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:con="clr-namespace:Diplom.Converters"
       xmlns:vm="clr-namespace:Diplom.ViewModels"
       xmlns:local="clr-namespace:Diplom.View"
@@ -34,7 +34,7 @@
                 
                 <Button Content="Добавить клиента"
                         Command="{Binding NewClientOpenCommand}"
-                        CommandParameter="{Binding ElementName=Clientpage}"/>
+                        CommandParameter="{Binding ElementName=Clientpage}" Cursor="Hand"/>
                 <Button Content="Удалить клиента"
                         Command="{Binding DeleteClientCommand}"
                         CommandParameter="{Binding ElementName=Clientpage}"/>
@@ -51,9 +51,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ListView.View>
-                   
                     <GridView >
-                        
                         <GridViewColumn Header="Номер договора"  DisplayMemberBinding="{Binding StringFormat=Договор № {0}, Path=NDogovora}"/>
                         <GridViewColumn Header="ФИО" DisplayMemberBinding="{Binding Fio}"/>
                         <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Telethon}"/>
@@ -101,7 +99,9 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Редактировать"/>
+                                    <Button Content="Редактировать"
+                                             Command="{Binding NewDogovorOpenCommand}"
+                                             CommandParameter="{Binding ElementName=Clientpage}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
