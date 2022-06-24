@@ -102,12 +102,7 @@ namespace Diplom.ViewModels
                         dgZayvki.UpdateLayout();
                         dgZayvki.ScrollIntoView(dgZayvki.Items[j]);
 
-                        //var dataGridrow = DataGridRow.GetRowContainingElement((dgZayvki.Items[j]);
-                        //var myStacPanel = dgZayvki.Columns[0].GetCellContent(dataGridrow) as StackPanel;
-                        //var secondTextBlock = myStacPanel.Children
-                        //.Where(w => w.GetValue(FrameworkElement.NameProperty).Equals("t2"))
-                        //.Select(s => s as TextBlock)
-                        //.SingleOrDefault();
+                        
                         
 
                         TextBlock ? b = dgZayvki.Columns[i].GetCellContent(dgZayvki.Items[j]) as TextBlock;
