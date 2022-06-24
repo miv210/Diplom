@@ -15,8 +15,9 @@
         <vm:ZayvkiPageViewModel/>
     </Page.DataContext>
 
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -35,7 +36,15 @@
                     />
             <Button Content="Все заявки"
                     Command="{Binding SelectedAllZayvkiCommand}"
-                    CommandParameter="{Binding ElementName=Zayvkipage}"
+                    CommandParameter="{Binding ElementName=Zayvkipage}" Cursor="Hand"
+                    />
+            <Button Content="Обновить"
+                    Command="{Binding RefreshCommand}"
+                    CommandParameter="{Binding ElementName=Zayvkipage, Mode=OneWay}" Cursor="Hand"
+                    />
+            <Button Content="Создать отчет"
+                    Command="{Binding CreateReportCommand}"
+                    CommandParameter="{Binding ElementName=Zayvkipage}" Cursor="Hand"
                     />
             <md:ColorZone Mode="Standard"
                       Padding="8 4 8 4"
@@ -62,7 +71,7 @@
                     <TextBox Grid.Column="1"
                          Margin="8 0 0 0"
                          Text="{Binding SerchZayvitel}"
-                         md:HintAssist.Hint="Введите имя заявителя"
+                         md:HintAssist.Hint="Введите фамилию заявителя"
                          md:TextFieldAssist.DecorationVisibility="Hidden"
                          BorderThickness="0"
                          MinWidth="200"
@@ -70,9 +79,9 @@
                 </Grid>
             </md:ColorZone>
 
+
         </StackPanel>
-        
-        <DataGrid Grid.Row="1"
+        <DataGrid Grid.Row="2"
                   ItemsSource="{Binding ZayvkiList }"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
@@ -88,9 +97,10 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
+                                           Name="idZayvki"
                                            Text="{Binding StringFormat=Заявка № {0}, Path=Id}"/>
                                 <TextBlock Grid.Row="1" 
-                                           Text="{Binding Path=DateZayvki}"/>
+                                           Text="{Binding Path=DateBid}"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -103,21 +113,39 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <TextBlock Grid.Row="0"
-                                           Text="{Binding Client.Adres}"/>
-                                <TextBlock Grid.Row="1"
-                                           Text="{Binding Client.Fio}"/>
+                                           Text="{Binding IdClientaNavigation.Address}"/>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock 
+                                           Text="{Binding IdClientaNavigation.IdPassportaNavigation.Surname}" Margin="0,0,5,0"/>
+                                    <TextBlock 
+                                           Text="{Binding IdClientaNavigation.IdPassportaNavigation.Name}" Margin="0,0,5,0"/>
+                                    <TextBlock 
+                                           Text="{Binding IdClientaNavigation.IdPassportaNavigation.Patronymic}" Margin="0,0,5,0"/>
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Вид заявки" Binding="{Binding Path=TypeZayvki}"/>
-                <DataGridTextColumn Header="Исполнитель" Binding="{Binding Path=User.Login}"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Path=StatusZayvki}"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Path=Opisanie}"/>
+                <DataGridTextColumn Header="Вид заявки" Binding="{Binding Path=TypeB.NameType}"/>
+                <DataGridTextColumn Header="Диспетчер" Binding="{Binding Path=IdOperatoraNavigation.Login}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=StatusB.NameStatusa}"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Path=Description}"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="button" Content="Редактировать"
+                                    Command="{Binding DataContext.RedactBidCommand, ElementName=Zayvkipage}" 
+                                    
+                                    Cursor="Hand" CommandParameter="{Binding Mode=OneWay}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+        <ToolBarPanel Grid.Row="1"/>
+
     </Grid>
 </Page>

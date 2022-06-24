@@ -1,0 +1,98 @@
+﻿<Page x:Class="Diplom.View.GeneralPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:vm="clr-namespace:Diplom.ViewModels"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Diplom.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GeneralPage">
+
+    <Page.DataContext>
+        <vm:GeneralPageViewModel/>
+    </Page.DataContext>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Общая информация" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20"/>
+        <TextBlock Text="Логин" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+        <TextBlock Text="Пароль" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
+        <TextBlock Text="Номер телефона" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
+        <TextBlock Text="Адрес проживания" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="4"/>
+        <TextBlock Text="Лицевой счет" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"/>
+     
+
+        <TextBox Grid.Row="1" 
+                         Grid.Column="2" 
+                         Height="50" 
+                         
+                         Margin="0,0,10,0"
+                         Text="{Binding Login}"
+                         FontSize="10" Cursor="Arrow"/>
+
+        <TextBox Grid.Row="2" 
+                         Grid.Column="2" 
+                         Height="50" 
+                         
+                         Margin="0,0,10,0"
+                         Text="{Binding Password}"
+                         FontSize="10"/>
+
+        <TextBox Grid.Row="3" 
+                         Grid.Column="2" 
+                         Height="50" 
+                         
+                         Margin="0,0,10,0"
+                         Text="{Binding TelethonNumber}" 
+                         FontSize="10"/>
+
+        <TextBox Grid.Row="4" 
+                         Grid.Column="2" 
+                         Height="50" 
+                         
+                         Margin="0,0,10,0"
+                         Text="{Binding Address}" 
+                         FontSize="10"/>
+
+        <TextBox Grid.Row="5" 
+                         Grid.Column="2" 
+                         Height="50" 
+                         
+                         Margin="0,0,10,0"
+                         Text="{Binding PersonalAccount}"
+                         FontSize="10"/>
+
+
+        <Grid Grid.Row="6" Grid.ColumnSpan="2">
+            <Button Content="Сохранить"
+                        Width="300"
+                        HorizontalAlignment="Right"
+                        Command="{Binding SaveNewClientCommand}"
+                        CommandParameter="{Binding RelativeSource={
+             RelativeSource AncestorType={x:Type Window}}}"
+                        FontSize="10" Cursor="Hand"
+                        />
+            <Button Content="Назад"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        Command="{Binding BackCommand}"
+                        CommandParameter="{Binding ElementName=Newclient}"
+                        FontSize="10"
+                        />
+        </Grid>
+    </Grid>
+</Page>

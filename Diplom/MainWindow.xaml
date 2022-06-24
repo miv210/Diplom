@@ -69,19 +69,29 @@
                         Command="{Binding CloseWindowCommand}" Cursor="Hand"/>
 
                     </StackPanel>
-
                 </Border>
-                <StackPanel Grid.Column="0"
-                            Grid.Row="1"
-                    Orientation="Vertical">
-                    <Button x:Name="bttClientPage" 
+
+                <Grid Grid.Column="0"
+                            Grid.Row="1">
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="bttClientPage" 
                     Command="{Binding LoadClientPageCommand}"
                     Content="Клиенты"/>
-                    <Button Command="{Binding LoadZayvkiPageCommand}"
+                        <Button Command="{Binding LoadZayvkiPageCommand}"
                     Content="Журнал заявок"
                     Margin="0,5,0,0"/>
-                </StackPanel>
+                    </StackPanel>
 
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="{Binding Surnname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Grid>
                 <Frame Name="MainFrame" Grid.Row="1" Grid.Column="1" />
             </Grid>
         </md:DialogHost>

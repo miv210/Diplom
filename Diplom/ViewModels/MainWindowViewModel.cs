@@ -10,6 +10,21 @@ namespace Diplom.ViewModels
 {
     class MainWindowViewModel : BaseViewModel
     {
+        public string Surnname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public static int idOperatora = 0;
+        Operator oper { get; set; }
+        public MainWindowViewModel()
+        {
+            
+            if(idOperatora != 0)
+            {
+                DiplomContext.GetContext().Operators.Where(u => u.Id == idOperatora).FirstOrDefault();
+                Surnname = oper.Surname;
+            }
+                
+        }
         public static Frame MainFrame { get; set; }
         private Command loadClientPageCommand;
         public Command LoadClientPageCommand

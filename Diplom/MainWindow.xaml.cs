@@ -26,8 +26,8 @@ namespace Diplom
             LoginWindow lw = new LoginWindow();
             this.Hide();
             lw.ShowDialog();
-            this.Show();
-            
+            //this.Show();
+
             MainFrame.Navigate(new ClientPage());
             MainWindowViewModel.MainFrame = MainFrame;
         }

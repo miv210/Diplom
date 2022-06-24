@@ -7,25 +7,22 @@ namespace Diplom.Models
     {
         public Client()
         {
-            Dogovors = new HashSet<Dogovor>();
-            Zayvkis = new HashSet<Zayvki>();
+            Bids = new HashSet<Bid>();
+            Contracts = new HashSet<Contract>();
         }
 
         public int Id { get; set; }
-        public int? NDogovora { get; set; }
-        public string? Fio { get; set; }
-        public string? Telethon { get; set; }
-        public string? Adres { get; set; }
-        public int? LicevoiChet { get; set; }
-        public int? Seriy { get; set; }
-        public int? Nomer { get; set; }
-        public DateTime? DataVidachi { get; set; }
-        public DateTime? DataRojdeniy { get; set; }
-        public string? KodPodrazdeleniy { get; set; }
-        public string? KemVidan { get; set; }
-        public string? AdresRegistraci { get; set; }
+        public string? Login { get; set; }
+        public string? Password { get; set; }
+        public int? NContract { get; set; }
+        public string? TelethonNumber { get; set; }
+        public string? Address { get; set; }
+        public int? PersonalAccount { get; set; }
+        public int? IdPassporta { get; set; }
 
-        public virtual ICollection<Dogovor> Dogovors { get; set; }
-        public virtual ICollection<Zayvki> Zayvkis { get; set; }
+        public virtual Passport? IdPassportaNavigation { get; set; }
+        public virtual Contract? NContractNavigation { get; set; }
+        public virtual ICollection<Bid> Bids { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
     }
 }

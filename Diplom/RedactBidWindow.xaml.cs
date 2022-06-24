@@ -15,15 +15,15 @@ using System.Windows.Shapes;
 namespace Diplom
 {
     /// <summary>
-    /// Логика взаимодействия для NewClientWindow.xaml
+    /// Логика взаимодействия для RedactBidWindow.xaml
     /// </summary>
-    public partial class NewClientWindow : Window
+    public partial class RedactBidWindow : Window
     {
-        public NewClientWindow()
+        public RedactBidWindowViewModal ViewModal { get; set; }
+        public RedactBidWindow(Bid bid)
         {
             InitializeComponent();
-            frNewClient.Navigate(new PassportPage());
-            NewClientWindowViewModel.MainFrame = frNewClient;
+            DataContext = ViewModal = new RedactBidWindowViewModal(bid);
         }
     }
 }

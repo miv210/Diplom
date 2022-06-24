@@ -10,49 +10,23 @@
         Title="LoginWindow" 
         Height="650" 
         Width="1000"
-        AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Background="{x:Null}"
-        Name="LoginName">
+        >
 
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
-    
-    <md:Card UniformCornerRadius="15"
-             Background="{DynamicResource MaterialDesignPaper}"
-             Margin="25">
-        <md:DialogHost>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <StackPanel HorizontalAlignment="Right"
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Margin="0,0,10,0">
-
-                    <Button Height="20"
-                        Width="20"
-                        Content="🗕"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Style="{Binding}"
-                        Margin="0,0,0,3"
-                        Foreground="Black"
-                        Command="{Binding MinimaizeWindowCommand}"/>
-
-                    <Button Height="20"
-                        Width="20"
-                        Content="☐"
-                        Background="Transparent"
-                        Foreground="Black"
-                        Style="{Binding}"
-                        BorderThickness="0"
-                        Command="{Binding WindowStateCommand}" Cursor="Hand"/>
-
-                    <Button Height="20"
+            <Button Height="20"
                         Width="20"
                         Content="X"
                         Background="Transparent"
@@ -60,26 +34,25 @@
                         Style="{Binding}"
                         BorderThickness="0"
                         Command="{Binding CloseWindowCommand}" Cursor="Hand"/>
+        </StackPanel>
 
-                </StackPanel>
-                
-                <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    
 
-                    <TextBlock Margin="0,25,0,5"
+
+            <TextBlock Margin="0,25,0,5"
                                HorizontalAlignment="Center"
                                FontSize="28"
                                FontWeight="Bold"
                                Text="Добро пожаловать"/>
 
-                    <TextBlock HorizontalAlignment="Center"
+            <TextBlock HorizontalAlignment="Center"
                                FontSize="17"
                                FontWeight="SemiBold"
                                Text="Войдите в ваш акаунт"/>
-                    
-                    <TextBox Margin="0,50,0,0"
+
+            <TextBox Margin="0,50,0,0"
                              Width="300"
                              Text="{Binding Login}"
                              FontSize="18"
@@ -88,7 +61,7 @@
                              BorderBrush="{DynamicResource MaterialDesignDivider}"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <PasswordBox Width="300"
+            <PasswordBox Width="300"
                              Margin="0,20,0,0"
                              PasswordChanged="PasswordBox_PasswordChanged"
                              FontSize="18"
@@ -97,21 +70,18 @@
                              BorderBrush="{DynamicResource MaterialDesignDivider}"
                              Style="{StaticResource MaterialDesignOutlinedPasswordBox}" Cursor="Arrow"/>
 
-                    <Button Style="{StaticResource MaterialDesignFlatMidBgButton}"
+            <Button Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         md:ShadowAssist.ShadowDepth="Depth0"
-                        Command="{Binding Log}"
-                        CommandParameter="{Binding ElementName=LoginName}"
+                        Command="{Binding LoginCommand}"
+                        CommandParameter="{Binding RelativeSource={
+             RelativeSource AncestorType={x:Type Window}}}"
                         Height="53" 
                         Width="300"
                         md:ButtonAssist.CornerRadius="10"
                         FontSize="18"
                         Content="Войти"
-                        Margin="0,20,0,0" Cursor="Hand"
-                        IsDefault="True"
+                        Margin="0,20,0,0" 
                         />
-
-                </StackPanel>
-            </Grid>
-        </md:DialogHost>
-    </md:Card>
+        </StackPanel>
+    </Grid>
 </Window>

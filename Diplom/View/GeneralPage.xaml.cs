@@ -10,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Diplom
+namespace Diplom.View
 {
     /// <summary>
-    /// Логика взаимодействия для NewClientWindow.xaml
+    /// Логика взаимодействия для GeneralPage.xaml
     /// </summary>
-    public partial class NewClientWindow : Window
+    public partial class GeneralPage : Page
     {
-        public NewClientWindow()
+        public GeneralPage()
         {
             InitializeComponent();
-            frNewClient.Navigate(new PassportPage());
-            NewClientWindowViewModel.MainFrame = frNewClient;
         }
     }
 }

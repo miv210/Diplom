@@ -1,0 +1,82 @@
+﻿<Window x:Class="Diplom.RedactBidWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:Diplom.ViewModels"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        mc:Ignorable="d"
+        MaxHeight="200"
+        MaxWidth="400"
+        MinHeight="200"
+        MinWidth="400"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        Title="RedactBidWindow" 
+        Name="RedactBidWnd">
+
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+            <Button Height="20"
+                        Margin="0,0,5,0"
+                        Width="20"
+                        Content="X"
+                        Background="Transparent"
+                        Foreground="Black"
+                        Style="{Binding}"
+                        BorderThickness="0"
+                        Command="{Binding CloseWindowCommand}" 
+                        CommandParameter="{Binding ElementName=RedactBidWnd}"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Редактирование заявки" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Grid.ColumnSpan="2" FontSize="22"
+                   FontFamily="Arial" 
+                   FontWeight="Normal"
+                   />
+            <TextBlock Text="Статус" 
+                   Grid.Column="0" 
+                   Grid.Row="1" 
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+            <ComboBox  SelectedItem="{Binding SelectedStatusBid}" 
+                   DisplayMemberPath="NameStatusa" 
+                   ItemsSource="{Binding StatusBids}"
+                   Grid.Column="2"
+                   Grid.Row="1"
+                   Margin="0,0,20,0"/>
+            <TextBlock Text="" 
+                   Grid.Column="0" 
+                   Grid.Row="2" 
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+
+            <Button Content="Сохранить" 
+                 Grid.ColumnSpan="2" Grid.Row="3"
+                Command="{Binding SaveCommand}"/>
+        </Grid>
+    </Grid>
+        
+</Window>

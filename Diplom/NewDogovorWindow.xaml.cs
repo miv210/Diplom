@@ -19,11 +19,12 @@ namespace Diplom
     /// </summary>
     public partial class NewDogovorWindow : Window
     {
-        public NewDogovorWindow()
+        public NewDogovorWindowViewModel ViewModel { get; set; }
+
+        public NewDogovorWindow(Contract dogovor)
         {
             InitializeComponent();
+            DataContext = ViewModel = new NewDogovorWindowViewModel(dogovor);
         }
-
-        
     }
 }

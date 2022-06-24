@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,62 +14,104 @@ namespace Diplom.ViewModels
 {
     class ClientPageViewModel : BaseViewModel
     {
-        public List<Client> Clients { get; set; } = TestBdContext.GetContext().Clients.ToList();
-        public List<Dogovor> DogovorS { get; set; } = TestBdContext.GetContext().Dogovors.ToList();
-        public string VisibilityGrid { get; set; } = "Collapsed";
+        public List<Client> Clients { get; set; } = DiplomContext.GetContext().Clients.Include(u=> u.IdPassportaNavigation).ToList();
+        public List<Contract> DogovorS { get; set; } = DiplomContext.GetContext().Contracts.Include(u=> u.TypeContractNavigation).ToList();
 
-        private Command selectRowCommand;
-        public Command SelectRowCommand 
+        int idClienta = 0;
+        public Command SelectRowCommand { get; set;}
+        public Command NewClientOpenCommand { get; set; }
+        public Command NewDogovorOpenCommand { get; set; }
+        public Command OpenFileCommand { get; set; }
+        public Command RedactClientWindowOpenCommand { get; set; }
+        public ClientPageViewModel()
         {
-            get
-            {
-                return selectRowCommand ?? (selectRowCommand = new Command(obj =>
-                {
-                    
-                    Page pg = obj as Page;
+            SelectRowCommand = new Command(SelectRow);
+            NewClientOpenCommand = new Command(NewClientWindowOpen);
+            NewDogovorOpenCommand = new Command(NewDogovorWindowOpen);
+            RedactClientWindowOpenCommand = new Command(RedactClientWindowOpen);
+            OpenFileCommand = new Command(OpenFile);
+        }
+        private async void SelectRow(object obj)
+        {
+            Page pg = obj as Page;
 
-                    ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
-                    int idClienta = GetIdClient(pg);
-                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == idClienta).ToList();
-                    
-                }));
+            ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+            idClienta = GetIdClient(pg);
+            NewDogovorWindowViewModel.idClienta = idClienta;
+            
+            listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClienta == idClienta).ToList();
+        }
+        private async void NewClientWindowOpen(object obj)
+        {
+            Page pg = obj as Page;
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+            NewClientWindow newClientWindow = new NewClientWindow();
+            
+            OpenDialogWindow(newClientWindow);
+
+            Clients = DiplomContext.GetContext().Clients.Include(u=> u.IdPassportaNavigation).ToList();
+            listViewClient.ItemsSource = Clients;
+        }
+        private async void RedactClientWindowOpen(object obj)
+        {
+            Page pg = obj as Page;
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+            NewClientWindow newClientWindow = new NewClientWindow();
+            OpenDialogWindow(newClientWindow);
+
+            Clients = DiplomContext.GetContext().Clients.Include(u => u.IdPassportaNavigation).ToList();
+            listViewClient.ItemsSource = Clients;
+        }
+        private async void NewDogovorWindowOpen(object obj)
+        {
+            Page pg = obj as Page;
+            ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+
+            int id = GetIdClient(pg);
+            if (id != 0)
+            {
+                NewDogovorWindow newDogovorWindow = new NewDogovorWindow(null);
+             
+                OpenDialogWindow(newDogovorWindow);
+                
+
+
+                listViewClient.ItemsSource = Clients;
+                DogovorS = DiplomContext.GetContext().Contracts.ToList();
+                listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClienta == id).ToList();
+                
+
             }
+            else
+                MessageBox.Show("Выбирите клиента");
         }
 
-        private Command newClientOpenCommand;
-        public Command NewClientOpenCommand
+        private async void OpenFile(object obj)
         {
-            get
+            Contract btt = obj as Contract;
+            
+            
+            DogovorS = DiplomContext.GetContext().Contracts.Include(u=> u.IdClientaNavigation).ToList();
+
+            byte[] dataDoc = btt.Doc;
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            //saveFileDialog.CheckFileExists = true;
+            //saveFileDialog.CheckPathExists = true;
+            saveFileDialog.Filter = "Files(*.docx; *.doc; *.pdf)|*.docx; *.pdf|All files (*.*)|*.*";
+            if (dataDoc != null)
             {
-                return newClientOpenCommand ?? (newClientOpenCommand = new Command(obj =>
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    Page pg = obj as Page;
-                    ListView listViewClient = pg.FindName("ListClin") as ListView;
-                    NewClientWindow newClientWindow = new NewClientWindow();
-                    OpenDialogWindow(newClientWindow, pg);
-                    Clients = TestBdContext.GetContext().Clients.ToList();
-                    listViewClient.ItemsSource = Clients;
-
-                }));
+                    File.WriteAllBytes(saveFileDialog.FileName, dataDoc);
+                    MessageBox.Show("Файл сохранен");
+                }
             }
-        }
-
-        private Command newDogovorOpenCommand;
-        public Command NewDogovorOpenCommand
-        {
-            get
+            else
             {
-                return newDogovorOpenCommand ?? (newDogovorOpenCommand = new Command(obj =>
-                {
-                    Page pg = obj as Page;
-                    ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
-                    NewDogovorWindow newDogovorWindow = new NewDogovorWindow ();
-                    OpenDialogWindow(newDogovorWindow, pg);
-                    DogovorS = TestBdContext.GetContext().Dogovors.ToList();
-                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == GetIdClient(pg)).ToList(); 
-                }));
-            }
-
+                MessageBox.Show("Файл отсутствует");
+            }              
         }
 
         private Command deleteDogovorCommand;
@@ -78,24 +122,21 @@ namespace Diplom.ViewModels
                 return deleteDogovorCommand ?? (deleteDogovorCommand = new Command(obj =>
                 {
                     Page pg = obj as Page;
-
-                    ListView listViewDogovor = pg.FindName("ListDogovor") as ListView; ;
-                    ListView listViewClient = pg.FindName("ListClin") as ListView;
-           
-                    List<Dogovor> dogForRemoving = listViewDogovor.SelectedItems.Cast<Dogovor>().ToList();
+                    ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+                    List<Contract> dogForRemoving = listViewDogovor.SelectedItems.Cast<Contract>().ToList();
 
                     if (MessageBox.Show($"Вы точно хотите удалить следующие {dogForRemoving.Count()} элементов,", "Вгимание",
                         MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             try
                             {
-                                using (TestBdContext db = new TestBdContext())
+                                using (DiplomContext db = new DiplomContext())
                                 {
-                                    db.Dogovors.RemoveRange(dogForRemoving);
+                                    db.Contracts.RemoveRange(dogForRemoving);
                                     db.SaveChanges();
                                     MessageBox.Show("Данные удаленны");
-                                    DogovorS = db.Dogovors.ToList(); ;
-                                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClient == GetIdClient(pg)).ToList(); 
+                                    DogovorS = db.Contracts.ToList(); ;
+                                    listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClienta == GetIdClient(pg)).ToList(); 
                                 }
                             }
                             catch(Exception ex)
@@ -115,21 +156,22 @@ namespace Diplom.ViewModels
                 {
                     Page pg = obj as Page;
 
+
                     ListView listViewClient = pg.FindName("ListClin") as ListView;
                     List<Client> clientForRemoving = listViewClient.SelectedItems.Cast<Client>().ToList();
-
-                    if (MessageBox.Show($"Вы точно хотите удалить следующие {clientForRemoving.Count()} элементов,", "Вгимание",
+                    
+                    if (MessageBox.Show($"Вы точно хотите удалить следующие {clientForRemoving.Count()} элементов,", "Внимание",
                         MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         try
                         {
-                            using (TestBdContext db = new TestBdContext())
+                            using (DiplomContext db = new DiplomContext())
                             {
                                 db.Clients.RemoveRange(clientForRemoving);
                                 db.SaveChanges();
                                 MessageBox.Show("Данные удаленны");
 
-                                listViewClient.ItemsSource = db.Clients.ToList();
+                                listViewClient.ItemsSource = db.Clients.Include(u=> u.IdPassportaNavigation).ToList();
                             }
                         }
                         catch (Exception ex)
@@ -140,18 +182,20 @@ namespace Diplom.ViewModels
                 }));
             }
         }
-        private void OpenDialogWindow(Window wn, object dataContext)
+        private void OpenDialogWindow(Window wn)
         {
             wn.Owner = Application.Current.MainWindow;
             wn.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wn.ShowDialog();
-            wn.DataContext = dataContext;
+            
         }
 
         public int GetIdClient(Page pg)
         {
+            int idClienta = 0;
             ListView listViewClient = pg.FindName("ListClin") as ListView;
-            int idClienta = (listViewClient.SelectedItem as Client).Id;
+            if ((listViewClient.SelectedItem as Client) != null)
+                idClienta = (listViewClient.SelectedItem as Client).Id;
             return idClienta;
         }
     }
