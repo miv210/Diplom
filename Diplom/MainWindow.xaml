@@ -92,7 +92,7 @@
                         <TextBlock Text="{Binding Surnname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </Grid>
-                <Frame Name="MainFrame" Grid.Row="1" Grid.Column="1" />
+                <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="1" />
             </Grid>
         </md:DialogHost>
     </md:Card>

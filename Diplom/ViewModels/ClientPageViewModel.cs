@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Office.Interop.Word;
 using System.Windows.Controls;
+using Page = System.Windows.Controls.Page;
 
 namespace Diplom.ViewModels
 {
@@ -16,12 +18,15 @@ namespace Diplom.ViewModels
     {
         public List<Client> Clients { get; set; } = DiplomContext.GetContext().Clients.Include(u=> u.IdPassportaNavigation).ToList();
         public List<Contract> DogovorS { get; set; } = DiplomContext.GetContext().Contracts.Include(u=> u.TypeContractNavigation).ToList();
+        public Contract SelectedDogovor { get; set; }
 
         int idClienta = 0;
         public Command SelectRowCommand { get; set;}
+        public Command EditTovarCommand { get; set; }
         public Command NewClientOpenCommand { get; set; }
         public Command NewDogovorOpenCommand { get; set; }
         public Command OpenFileCommand { get; set; }
+        public Command CreateTemplateDogCommand { get; set; }
         public Command RedactClientWindowOpenCommand { get; set; }
         public ClientPageViewModel()
         {
@@ -30,6 +35,8 @@ namespace Diplom.ViewModels
             NewDogovorOpenCommand = new Command(NewDogovorWindowOpen);
             RedactClientWindowOpenCommand = new Command(RedactClientWindowOpen);
             OpenFileCommand = new Command(OpenFile);
+            EditTovarCommand = new Command(OnEditDogovorClicked);
+            CreateTemplateDogCommand = new Command(CreateTemplateDog);
         }
         private async void SelectRow(object obj)
         {
@@ -52,6 +59,55 @@ namespace Diplom.ViewModels
             Clients = DiplomContext.GetContext().Clients.Include(u=> u.IdPassportaNavigation).ToList();
             listViewClient.ItemsSource = Clients;
         }
+        private async void CreateTemplateDog(object obj) 
+        {
+            Page pg = obj as Page;
+            ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+
+            Contract dog = SelectedDogovor;
+            if (dog != null)
+            {
+                var helper = new WordHelper("proekt-dogovora-predoplata.docx");
+                var items = new Dictionary<string, string>
+                {
+                    {"<Name>", dog.IdClientaNavigation.IdPassportaNavigation.Name},
+                    {"<Surname> ",  dog.IdClientaNavigation.IdPassportaNavigation.Surname},
+                    {"<Pat>", dog.IdClientaNavigation.IdPassportaNavigation.Patronymic },
+                    {"<AddressJut>", dog.IdClientaNavigation.Address },
+                    {"<Date_birth>", Convert.ToString( dog.IdClientaNavigation.IdPassportaNavigation.DateOfBirth)},
+                    {"<Seri>", Convert.ToString(dog.IdClientaNavigation.IdPassportaNavigation.Series) },
+                    {"<Number>", Convert.ToString(dog.IdClientaNavigation.IdPassportaNavigation.Number) },
+                    {"<Telethon>", Convert.ToString(dog.IdClientaNavigation.TelethonNumber) }
+                };
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                //saveFileDialog.CheckFileExists = true;
+                //saveFileDialog.CheckPathExists = true;
+                saveFileDialog.Filter = "Files(*.docx; *.doc;)|*.docx |All files (*.*)|*.*";
+                
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        helper.Process(items, saveFileDialog.FileName);
+                        MessageBox.Show("Файл сохранен");
+                    }
+                
+                
+
+                
+
+                //listViewClient.ItemsSource = Clients;
+                //DogovorS = DiplomContext.GetContext().Contracts.ToList();
+                //listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClienta == dog.IdClienta).ToList();
+
+            }
+            else
+            {
+                MessageBox.Show("Выберите договор");
+            }
+            
+            //WordDocument document = new WordDocument();
+        }
         private async void RedactClientWindowOpen(object obj)
         {
             Page pg = obj as Page;
@@ -61,6 +117,32 @@ namespace Diplom.ViewModels
 
             Clients = DiplomContext.GetContext().Clients.Include(u => u.IdPassportaNavigation).ToList();
             listViewClient.ItemsSource = Clients;
+        }
+        private async void OnEditDogovorClicked(object obj)
+        {
+            Page pg = obj as Page;
+            ListView listViewDogovor = pg.FindName("ListDogovor") as ListView;
+            ListView listViewClient = pg.FindName("ListClin") as ListView;
+
+            Contract dog = SelectedDogovor;
+            if (dog!= null)
+            {
+
+                NewDogovorWindow newDogovorWindow = new NewDogovorWindow(dog);
+
+                OpenDialogWindow(newDogovorWindow);
+
+
+
+                listViewClient.ItemsSource = Clients;
+                DogovorS = DiplomContext.GetContext().Contracts.ToList();
+                listViewDogovor.ItemsSource = DogovorS.Where(u => u.IdClienta == dog.IdClienta).ToList();
+
+            }
+            else
+            {
+                MessageBox.Show("Выберите договор");
+            }
         }
         private async void NewDogovorWindowOpen(object obj)
         {
@@ -182,9 +264,9 @@ namespace Diplom.ViewModels
                 }));
             }
         }
-        private void OpenDialogWindow(Window wn)
+        private void OpenDialogWindow(System.Windows.Window wn)
         {
-            wn.Owner = Application.Current.MainWindow;
+            wn.Owner = System.Windows.Application.Current.MainWindow;
             wn.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wn.ShowDialog();
             

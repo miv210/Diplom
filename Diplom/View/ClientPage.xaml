@@ -67,15 +67,7 @@
                         </GridViewColumn>
                         <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding TelethonNumber}"/>
                         <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
-                        <GridViewColumn >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate >
-                                    <Button Content="Редактировать" 
-                                            Command="{Binding DataContext.RedactClientWindowOpenCommand, ElementName=Clientpage}" 
-                                            CommandParameter="{Binding ElementName=Clientpage}" Cursor="Hand"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                       
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -99,11 +91,17 @@
                         Content="Удалить дог"  
                         Command="{Binding DeleteDogovorCommand}"
                         CommandParameter="{Binding ElementName=Clientpage}"/>
+                <Button Content="Редактировать"
+                                             Command="{Binding EditTovarCommand}"
+                                             CommandParameter="{Binding ElementName=Clientpage}"/>
+                <Button Content="Создать файл договора из шаблона"
+                                             Command="{Binding CreateTemplateDogCommand}"
+                                             CommandParameter="{Binding ElementName=Clientpage}" Cursor="Hand"/>
             </StackPanel>
 
-            <ListView Grid.Row="1"  x:Name="ListDogovor" >
+            <ListView Grid.Row="1" SelectedItem="{Binding SelectedDogovor}" x:Name="ListDogovor" >
                 <ListView.View>
-                    <GridView>
+                    <GridView >
                         <GridViewColumn Header="Номер договора"  DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Тип договора" DisplayMemberBinding="{Binding TypeContractNavigation.NameType}"/>
 
@@ -120,21 +118,12 @@
 
                                             <md:PackIcon Kind="FileDownloadOutline"/>
                                         </Button>
-                                        <TextBlock Text="{Binding }"/>
                                     </StackPanel>
                                     
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Редактировать"
-                                             Command="{Binding NewDogovorOpenCommand}"
-                                             CommandParameter="{Binding ElementName=Clientpage}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        
                     </GridView>
                 </ListView.View>
             </ListView>

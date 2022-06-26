@@ -115,10 +115,14 @@ namespace Diplom.ViewModels
                         }
                         if (i == 1)
                         {
-                            string adCl = $"{list[j].IdClientaNavigation.Address} \n" +
+                            if(list[j].IdClientaNavigation.Id != 0)
+                            {
+                                string adCl = $"{list[j].IdClientaNavigation.Address} \n" +
                                 $"{list[j].IdClientaNavigation.IdPassportaNavigation.Surname} " +
                                 $"{list[j].IdClientaNavigation.IdPassportaNavigation.Name}" + $" {list[j].IdClientaNavigation.IdPassportaNavigation.Patronymic}";
-                            myRange.Value2 = adCl ;
+                                myRange.Value2 = adCl;
+                            }
+                            
                         }
 
                         if (b != null)
